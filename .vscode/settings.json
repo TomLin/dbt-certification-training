@@ -1,0 +1,12 @@
+{
+    "sqlfluff.dialect": "snowflake",
+    "sqlfluff.excludeRules": [
+        "CP02",
+        "RF04",
+        "CP05",
+        ""
+    ],
+
+    "python.defaultInterpreterPath": "dbt-certificate",
+    "python.terminal.activateEnvironment": true
+}

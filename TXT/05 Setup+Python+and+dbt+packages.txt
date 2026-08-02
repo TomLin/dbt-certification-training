@@ -1,0 +1,37 @@
+*** Setup Python and dbt packages ***
+
+
+
+- Instructions:
+
+	- Install Python 3.12 ( 3.8 to 3.12) https://www.python.org/downloads/release/python-3120/
+
+
+	- Verify the Python version in your Command Line
+
+		python --version
+
+
+	- Create a folder: "Ethereum Project"
+
+
+	- Inside of "Ethereum Project" create a virtual environment 
+
+			python -m venv venv
+
+
+	- Activate your virtual environment
+
+		Windows CMD: venv\Scripts\activate
+		
+		Mac: source venv\bin\activate
+	
+
+	- Install dbt packages:
+
+			pip install dbt-core==1.9.4 dbt-snowflake==1.9.4
+
+
+	- DBT installation check:
+
+			dbt --version

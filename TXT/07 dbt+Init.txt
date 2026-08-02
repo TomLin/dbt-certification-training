@@ -1,0 +1,45 @@
+*** dbt init ***
+
+- To activate the virtual environment from the command prompt in Vs Code:
+
+	cd venv
+
+	cd Scripts
+
+	activate
+
+
+- To come back to the root level "Ethereum Project", do a couple of times:
+
+
+	cd ..
+
+
+
+- With the virtual environment activated, initiate the dbt project with:
+
+
+	dbt init
+
+
+
+- In snowflake to create the database that will hold DBT transformations:
+
+
+	CREATE DATABASE DBT;
+
+
+
+- After providing all the Snowflake information, test the connection:
+
+
+	cd eth
+
+	dbt debug
+
+/*
+Some additional questions asked during dbt init
+- role: ACCOUNTADMIN (highest auth)
+- schema: DBT_TLIN
+- threads: 1
+*/

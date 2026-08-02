@@ -1,0 +1,17 @@
+*** Ethereum: theory ***
+
+
+- On Ethereum documentation :
+
+	https://ethereum.org/developers/docs/transactions
+	
+	https://ethereum.org/developers/docs/standards/tokens/erc-20/
+
+	https://takenobu-hs.github.io/downloads/ethereum_evm_illustrated.pdf
+	
+	https://www.bis.org/publ/work1066.htm
+
+
+- On Crypto currencies listing and prices:
+
+	https://coinmarketcap.com/

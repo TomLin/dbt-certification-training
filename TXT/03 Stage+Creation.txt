@@ -1,0 +1,42 @@
+*** Stage Creation ***
+
+
+
+- To view the AWS data source description we will connect to: https://registry.opendata.aws/aws-public-blockchain/
+
+
+- Command to create a stage connecting to this AWS source data:
+
+
+		CREATE STAGE ETH.ETH_SCHEMA.TEST
+		url = 's3://aws-public-blockchain/v1.0/eth/'
+		FILE_FORMAT = (TYPE = 'PARQUET');
+		
+
+
+- Command to list the content of the freshly created stage:
+
+
+		LIST @ETH.ETH_SCHEMA.TEST;
+
+
+- After checking the content of that stage you can drop it with the command:
+
+
+		DROP STAGE ETH.ETH_SCHEMA.TEST;
+		
+
+- Commands to create the actual stages we will use during this course:
+
+
+		CREATE OR REPLACE STAGE ETH.ETH_SCHEMA.CONTRACTS_STAGE
+		url='s3://aws-public-blockchain/v1.0/eth/contracts'
+		FILE_FORMAT= (TYPE= 'PARQUET');
+
+		CREATE OR REPLACE STAGE ETH.ETH_SCHEMA.TOKEN_TRANSFERS
+		url='s3://aws-public-blockchain/v1.0/eth/token_transfers'
+		FILE_FORMAT= (TYPE= 'PARQUET');
+
+		CREATE OR REPLACE STAGE ETH.ETH_SCHEMA.TRANSACTIONS
+		url='s3://aws-public-blockchain/v1.0/eth/transactions'
+		FILE_FORMAT= (TYPE= 'PARQUET');

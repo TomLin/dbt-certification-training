@@ -1,0 +1,17 @@
+**** Snowflake Setup ****
+
+- Go to https://signup.snowflake.com/ and sign up with a new email to get the free 30 day trial.
+ No need for a credit card as long as the free credit is not consumed.
+
+- Try choosing a username for Snowflake with lowercaps or uppecaps but not mixed case. 
+This will come in handy when we need to reference it:
+
+	Example: GRANT USAGE ON DATABASE DEMO TO daniel
+	Instead of: GRANT USAGE ON DATABASE DEMO TO "Daniel"
+
+
+- Commands used to create a Database and Schema:
+
+		CREATE DATABASE ETH;
+		
+		CREATE SCHEMA ETH.ETH_SCHEMA;
