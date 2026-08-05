@@ -1,0 +1,25 @@
+*** Transactions enriched ***
+
+
+- Under the models folder, create the file transactions_enriched.sql:
+
+
+select
+
+t.hash,
+t.block_number,
+t.date,
+t.from_address,
+t.to_address,
+t.value,
+t.receipt_contract_address,
+t.input
+
+
+from {{ source('eth','transactions')}} t
+
+
+- Then back in the terminal:
+
+
+	dbt run --select transactions_enriched

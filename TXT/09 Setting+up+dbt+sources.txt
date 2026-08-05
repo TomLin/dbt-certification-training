@@ -1,0 +1,37 @@
+*** Setting up dbt sources ***
+
+
+- Documentation: https://docs.getdbt.com/docs/build/sources
+
+- Create a new file under models folder: sources.yml
+
+*************************************
+
+version: 2
+
+sources:
+  - name: eth
+    database: eth  
+    schema: eth_schema
+
+    tables:
+      - name: contracts
+      - name: token_transfers
+      - name: transactions
+
+*************************************
+
+
+- To test the source create a test.sql file under models with:
+
+
+select
+*
+from {{ source('eth', 'contracts') }}
+
+
+
+- Then from the terminal:
+
+		
+		dbt run --select test

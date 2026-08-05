@@ -1,0 +1,5 @@
+*** Transactions fields explained ***
+
+- Link to the website with crypto currencies listing and prices: https://coinmarketcap.com/
+
+- Link to the Ethereum transaction explorer: https://etherscan.io/

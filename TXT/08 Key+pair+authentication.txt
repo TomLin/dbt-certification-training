@@ -1,0 +1,36 @@
+*** Key pair authentication ***
+
+
+- Link to the Key Pair Authentication on Snowflake: https://docs.snowflake.com/en/user-guide/key-pair-auth
+
+
+- To generate a private key, open Git Bash and run:
+
+- 在自己的 project directory 裡面執行下面的指令後，會將 未加密的 private key 存在 rsa_key.p8 file 裡面
+		openssl genrsa 2048 | openssl pkcs8 -topk8 -inform PEM -out rsa_key.p8 -nocrypt
+
+
+- To generate a public key out of the freshly created private key, run in Git Bash:
+
+
+		openssl rsa -in rsa_key.p8 -pubout -out rsa_key.pub
+
+
+- Now to assign the public key to your Snowflake user, go into Snowflake and run:
+
+
+- Snowflake 的 public key，都是 assign 給 user，而不是 role
+		ALTER USER example_user SET RSA_PUBLIC_KEY='MIIBIjANBgkqh...';
+
+
+		with your own user and the content of your public key
+
+
+
+- Then navigate to your profiles.yml file and replace 'password' by 'private_key_path' and provide the path to
+your private key
+
+
+- Then test the connection to Snowflake once again:
+
+	dbt debug

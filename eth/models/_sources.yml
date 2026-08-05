@@ -1,0 +1,15 @@
+# yml 有不同版本，下面的版本是 2.0
+version: 2
+
+sources:
+  - name: eth # 這裡的 name 是指 source('name', 'table_name')
+    database: eth
+    schema: eth_schema
+    description: "This is the source for the Ethereum data warehouse."
+    tables:
+      - name: transactions
+        description: "This table contains information about Ethereum transactions."
+      - name: token_transfers
+        description: "This table contains information about Ethereum token transfers."
+      - name: contracts
+        description: "This table contains information about Ethereum smart contracts."
