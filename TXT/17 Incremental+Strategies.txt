@@ -1,0 +1,29 @@
+*** Incremental Strategies ***
+
+
+- Link to the docs:
+
+	https://docs.getdbt.com/docs/build/incremental-strategy
+	
+
+
+
+- Modify stg_transactions.sql file by:
+
+	- Adding on top of the file:
+	
+		{{ config(materialized='incremental', incremental_strategy='merge', unique_key='hash')}}
+	
+	- Adding at the bottom of the file:
+	
+		
+		{% if is_incremental() %}
+
+		where date >= (select max(date) from {{ this }} )
+
+		{% endif %}
+
+
+- Then from your terminal run:
+
+	dbt run --select stg_transactions

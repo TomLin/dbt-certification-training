@@ -1,0 +1,84 @@
+*** Identifying and Verifying Raw Object Dependencies ***
+
+
+
+- Under models folder create the file stg_contracts.sql:
+
+
+select
+address,
+block_number,
+block_timestamp,
+bytecode,
+date,
+last_modified
+
+from {{ source('eth', 'contracts')}}
+
+
+
+- Then again under models folder create the file stg_token_transfers.sql:
+
+
+select
+transaction_hash,
+date,
+token_address,
+value
+
+from {{ source('eth','token_transfers')}}
+
+
+
+- Then create under models the file stg_transactions.sql:
+
+
+select
+hash,
+block_number,
+date,
+from_address,
+to_address,
+value,
+receipt_contract_address,
+input
+
+
+from {{ source('eth', 'transactions')}}
+
+
+
+- Then back to transactions_enriched.sql file, replace:
+
+
+	{{ source('eth',transactions') }}
+
+   by:
+   
+    {{ ref('stg_transactions') }}
+	
+
+  And replace:
+  
+	{{ source('eth',token_transfers') }}
+	
+   by:
+   
+	{{ ref('stg_token_transfers') }}
+
+
+
+- Then back to stablecoin_activity_per_day.sql file, replace:
+
+	{{ source('eth',token_transfers') }}
+	
+	by:
+	
+	{{ ref('stg_token_transfers') }}
+	
+
+
+- Then from the terminal:
+
+
+	dbt run

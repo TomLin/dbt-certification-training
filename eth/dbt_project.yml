@@ -30,7 +30,6 @@ clean-targets:         # directories to be removed by `dbt clean`
 # directory as views. These settings can be overridden in the individual model
 # files using the `{{ config(...) }}` macro.
 models:
+  # Config indicated by + and applies to all files under models/
   eth: # This name corresponds to 自己本機端 profile 檔案裡面的 name
-    # Config indicated by + and applies to all files under models/example/
-    # example:
-    #   +materialized: view
+    +materialized: table # 在dbt的default materialization是view，這裡可以改成table

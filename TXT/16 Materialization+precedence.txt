@@ -1,0 +1,24 @@
+*** Materialization precedence ***
+
+
+- Under dbt_project.yml do the following modification on models key:
+
+
+models:
+  eth:
+    +materialized: table
+
+- Then do from the terminal:
+
+	dbt run
+
+
+- Then under stg_contracts.sql file add this line on top of the file and save:
+
+
+{{ config(materialized='view')}}
+
+
+- Then from the terminal:
+
+	dbt run --select stg_contracts

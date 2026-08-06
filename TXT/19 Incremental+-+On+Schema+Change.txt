@@ -1,0 +1,51 @@
+*** Incremental Models - On Schema Change ***
+
+
+
+- Link to the on schema change parameter: 
+
+	https://docs.getdbt.com/docs/build/incremental-models#what-if-the-columns-of-my-incremental-model-change
+
+
+
+- Add a new field in transactions enriched.sql:
+
+
+	1 as new_field
+	
+- Then from the terminal:
+
+
+	dbt run --select transactions_enriched
+	
+	And see in Snowflake if the new_field appears in the table
+
+
+
+
+- Then add an on_schema_change value ( fail) to transactions_enriched:
+
+	{{ config(materialized='incremental', incremental_strategy='append', on_schema_change='sync_all_columns')}}
+
+- Then from the terminal:
+
+
+	dbt run --select transactions_enriched
+	
+	And see your model fail
+
+
+
+
+- Finally add an on_schema_change value ( sync_all_columns) to transactions_enriched:
+
+	{{ config(materialized='incremental', incremental_strategy='append', on_schema_change='sync_all_columns')}}
+
+
+
+- Then from the terminal:
+
+
+	dbt run --select transactions_enriched
+	
+	And see in Snowflake how the new column appears

@@ -1,0 +1,53 @@
+*** Ephemeral Models ***
+
+
+- Under models, create a new file token_transfer_aggs.sql as an ephemeral model:
+
+
+		{{ config(materialized='ephemeral')}}
+
+		select
+		transaction_hash,
+		count(*) as token_transfer_count
+
+		from {{ ref('stg_token_transfers')}}
+
+		group by transaction_hash
+
+
+
+- Then back in transactions_enriched.sql, replace:
+
+		
+		left join (
+				select
+				transaction_hash,
+				count(*) as token_transfer_count
+				from {{ ref('stg_token_transfers')}}
+				group by transaction_hash
+				) tt
+	
+	
+	by:
+	
+	
+		{{ ref('token_transfer_aggs') }}
+		
+
+
+- Then back in our terminal go:
+
+		dbt run --select transactions_enriched
+
+
+
+- Then run:
+
+		dbt run --select token_transfer_aggs
+		
+And see how nothing gets created
+
+
+- Back in transactions_enriched , control z to restore the file as it was
+
+- Delete the file token_transfer_aggs.sql
