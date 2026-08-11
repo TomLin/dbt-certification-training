@@ -8,6 +8,14 @@
     如果新的資料有刪除欄位，那麼資料表的欄位也會被移除 #}
 {{ config(materialized='incremental', incremental_strategy='append', on_schema_change='sync_all_columns') }}
 
+with token_transfer_agg as (
+    select
+        transaction_hash,
+        count(*) as token_transfer_count
+    from {{ ref('stg_token_transfers') }}
+    group by transaction_hash
+)
+
 select
     t.hash,
     t.block_number,
@@ -26,13 +34,7 @@ select
     end) as transaction_category,
     1 as new_field -- 新增欄位，測試 on_schema_change='sync_all_columns' 的功能
 from {{ ref('stg_transactions') }} t
-left join (
-    select
-        transaction_hash,
-        count(*) as token_transfer_count
-    from {{ ref('stg_token_transfers') }}
-    group by transaction_hash
-    ) tt
+left join token_transfer_agg tt
 on t.hash = tt.transaction_hash
 
 {# incremental table 也需要加上 incremental logic #}

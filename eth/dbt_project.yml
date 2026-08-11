@@ -22,6 +22,12 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
 
+# 把 flags 設定在這裡，就不需要再指令上寫 dbt run --fail-fast，這樣就可以在有model跑失敗時，直接停止整個dbt run
+# flags:
+#   fail-fast: true
+
+# 所有 available flags 的參考：
+# 參考連結：[docs.getdbt.com/reference/global-configs/about-global-configs?version=2.0](https://docs.getdbt.com/reference/global-configs/about-global-configs?version=2.0)
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
@@ -33,3 +39,6 @@ models:
   # Config indicated by + and applies to all files under models/
   eth: # This name corresponds to 自己本機端 profile 檔案裡面的 name
     +materialized: table # 在dbt的default materialization是view，這裡可以改成table
+    # 如果有多個tags，指令下成 `dbt run --select tag:eth tag:crypto` 這個是union (or)
+    # 如果指令寫成 `dbt run --select tag:eth,tag:crypto` 這個是intersection (and) 要同時有兩個tags的model 才會執行
+    +tags: ['eth', 'crypto'] # 這裡可以加上tag，方便後續做dbt run --select tag:eth

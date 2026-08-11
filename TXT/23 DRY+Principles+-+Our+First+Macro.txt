@@ -1,0 +1,85 @@
+*** DRY Principles - Our First Macro ***
+
+
+
+- Under the macros folder create the file conversion_utils.sql
+
+
+{% macro ethereum_conversion(column_name) %}
+
+sum( {{ column_name }})/1e18
+
+{% endmacro %}
+
+
+
+- Call the macro inside of eth_activity_per_day.sql by replacing:
+
+	sum(value)/1e18  as sum_eth_value
+	
+  By:
+  
+	{{ ethereum_conversion('value') }} as sum_eth_value
+
+
+- Then from the terminal run:
+
+	dbt run --select eth_activity_per_day
+
+
+
+- Under conversion_utils.sql create a second macro:
+
+
+{% macro stablecoin_conversion(column_name) %}
+
+sum( {{ column_name }})/1e6
+
+{% endmacro %}
+
+
+
+- Call the macro inside of stablecoin_activity_per_day.sql by replacing:
+
+	sum(value/1e6)  as total_usd_value
+	
+	By:
+	
+	{{ stablecoin_conversion('value') }} as total_usd_value
+
+
+
+- Then from the terminal run:
+
+	dbt run --select stablecoin_activity_per_day
+
+
+
+- Finally, under conversion_utils.sql create the macro:
+
+
+{% macro conversion(column_name, factor) %}
+
+sum( {{column_name }})/1e{{factor}}
+
+{% endmacro %}
+
+
+
+- Then edit eth_activity_per_day.sql to replace:
+
+	{{ ethereum_conversion('value') }} as sum_eth_value
+	
+  By:
+  
+	{{ conversion('value', '18') }} as sum_eth_value
+
+
+
+- And edit stablecoin_activity_per_day.sql to replace:
+
+	{{ stablecoin_conversion('value') }} as total_usd_value
+	
+  By:
+  
+	{{ conversion('value', '6') }} as total_usd_value

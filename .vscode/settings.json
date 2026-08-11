@@ -8,5 +8,15 @@
     ],
 
     "python.defaultInterpreterPath": "dbt-certificate",
-    "python.terminal.activateEnvironment": true
+    "python.terminal.activateEnvironment": true,
+    "cSpell.words": [
+        "endfor",
+        "endmacro",
+        "endset",
+        "getdbt"
+    ],
+    "[yaml]": {
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true,
+        "editor.detectIndentation": false  // 加上這一行，當打開別人的 yml 文件時，會自動使用 tabSize 2 和 insertSpaces true 的設定，而不會被別人的設定覆蓋(假設 spaces 設定為 4)
 }

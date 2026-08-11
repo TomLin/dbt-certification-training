@@ -1,0 +1,146 @@
+*** DRY Principles - Macros Advanced 3 ***
+
+
+
+- Try editing random_macro like so:
+
+
+
+{% macro random_macro() %}
+
+{% set query %}
+select
+distinct
+token_address
+from {{ref('stg_token_transfers')}}
+limit 10
+{% endset %}
+
+{% if execute %}
+
+{% set results = run_query(query) % } 
+
+{% set result_list = results.columns[0].values() %}
+
+{% else %}
+
+{% set result_list = [] %}
+
+{% endif %}
+
+{{ log(result_list, info = True )) }}
+
+{% endmacro %}
+
+
+
+
+- And run the macro on its own:
+
+	dbt run-operation random_macro
+	
+
+
+
+- Try editing random_macro like so:
+
+
+
+{% macro random_macro() %}
+
+{% set query %}
+select
+distinct
+token_address
+from {{ref('stg_token_transfers')}}
+limit 10
+{% endset %}
+
+{% if execute %}
+
+{% set results = run_query(query) % } 
+
+{% set result_list = results.columns[0].values() %}
+
+{% else %}
+
+{% set result_list = [] %}
+
+{% endif %}
+
+{{ log(result_list, info = True )) }}
+
+{{ return(result_list) }}
+
+{% endmacro %}
+
+
+
+- Then modify the where clause of stablecoin_activity_per_day adding:
+
+
+		or lower(token_address) in {{random_macro() }}
+		
+
+
+- Back in the terminal run:
+
+
+		dbt run -m stablecoin_activity_per_day
+
+
+
+
+- Final state of random_macro:
+
+
+
+{% macro random_macro() %}
+
+{% set query %}
+
+select
+distinct
+token_address
+from {{ref('stg_token_transfers')}}
+limit 10
+{% endset %}
+
+{% if execute %}
+
+{% set results =  run_query(query) %}
+
+{% set result_list = results.columns[0].values() %}
+{% else %}
+
+{% set result_list = [] %}
+
+{% endif %}
+
+{% set sql = [] %}
+
+{% for i in result_list %}
+
+{% do sql.append("'"~i~"'") %}
+
+{% endfor %}
+
+{{ log(sql | join(', '), info = True) }}
+
+{{ return(sql | join(', '))}}
+
+{% endmacro %}
+
+
+
+
+- Then modify the where clause of stablecoin_activity_per_day like so (with the parenthesis around our macro) :
+
+
+		or lower(token_address) in ( {{random_macro() }} )
+		
+
+- Back in the terminal run:
+
+
+		dbt run -m stablecoin_activity_per_day

@@ -1,0 +1,20 @@
+version: 2
+
+# dbt test 的官方文件說明: https://docs.getdbt.com/docs/build/data-tests?version=2.0#generic-data-tests
+# 裡面包含，針對 dbt test 的 yml 語法，該怎麼寫
+
+# 也可以生成 dbt docs
+# 指令為 (1) dbt docs generate (2) dbt docs serve，它就會在本地端啟動一個網頁，並且可以看到 dbt docs 的內容
+
+models:
+  - name: stg_transactions
+    # 使用 > 符號，可以將多行文字合併成一行，並且保留換行符號
+    description: >
+      This model transforms the raw Ethereum transactions data
+      into a structured format for analysis.
+    columns:
+      - name: hash
+        description: The unique identifier for the transaction. # description 可以放在 both model and column level
+        data_tests: # default 在 dbt 可以使用的 tests
+          - not_null
+          - unique

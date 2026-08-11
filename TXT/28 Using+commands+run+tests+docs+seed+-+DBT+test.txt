@@ -1,0 +1,25 @@
+*** Using commands run tests docs seed - DBT test ***
+
+
+- Under models folder create a schema.yml file:
+
+
+
+version: 2
+
+
+models:
+  - name: stg_transactions
+    columns:
+      - name: hash
+        data_tests:
+          - unique
+          - not_null
+		  
+		  
+
+
+- Then from the terminal run:
+
+
+		dbt test

@@ -1,0 +1,27 @@
+*** Using commands run tests docs seed - Extra commands ***
+
+
+- To compile:
+
+	dbt compile -m eth_activity_per_day
+	
+
+
+- To list your resources:
+
+	dbt ls
+	
+
+- To only list your sources:
+
+	dbt ls --resource-type source
+	
+
+- To clean target folder plus packages:
+
+	dbt clean
+	
+
+- To build:
+
+	dbt build -m stg_transactions

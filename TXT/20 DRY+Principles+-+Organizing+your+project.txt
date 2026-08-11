@@ -1,0 +1,40 @@
+*** DRY Principles - Organizing your project ***
+
+- Link to the documentation:
+
+	https://www.getdbt.com/blog/modular-data-modeling-techniques
+	
+
+
+- Create a new folder models/base under models and move
+
+	stg_transactions.sql
+	
+	stg_token_transfers.sql
+	
+	stg_contracts.sql
+	
+	in the new folder base
+	
+
+- Create a new folder models/staging under models and move
+
+	transactions_enriched.sql
+
+	in the new folder staging
+
+
+- Rename the transactions_enriched.sql file into stg_transactions_enriched.sql
+
+
+- Modify eth_activity_per_day.sql to reference stg_transactions_enriched instead of transactions_enriched
+
+
+
+- Create a new folder models/marts under models and move
+
+	eth_activity_per_day.sql
+	
+	stablecoin_activity_per_day.sql
+
+	in the new folder marts

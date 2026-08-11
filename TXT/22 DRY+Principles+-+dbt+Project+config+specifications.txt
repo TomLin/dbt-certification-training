@@ -1,0 +1,25 @@
+*** DRY Principles - dbt Project config specifications ***
+
+
+- Modify dbt_project.yml file , in the models key like so:
+
+
+models:
+  eth:
+    +materialized: table
+    +tags: ['eth', 'crypto']
+
+
+- Then from the terminal run:
+
+	dbt run --select tag:crypto
+
+
+- Under eth_activity_per_day.sql add the tag 'daily':
+
+{{ config(materialized='table', tags = ['daily'])}}
+
+
+- Then from the terminal run:
+
+	dbt run --select tag:daily

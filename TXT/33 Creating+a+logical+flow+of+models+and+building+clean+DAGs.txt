@@ -1,0 +1,55 @@
+*** Creating a logical flow of models and building clean DAGs ***
+
+
+- Add a tag to stablecoin_activity_per_day and stg_token_transfers:
+
+{{ config(tags=['stablecoin'])}}
+
+
+- then run 
+
+		dbt run -m tag:stablecoin
+	
+	
+
+- Run all models under folder base:
+
+		dbt run -m base.*
+		
+
+- Run everything under marts folder AND with the tag stablecoin:
+
+		dbt run -m marts.*,tag:stablecoin
+		
+
+- Run a model plus all its parents (ancestors):
+
+		dbt run -m +eth_activity_per_day
+		
+
+- Run a model plus all its children :
+
+		dbt run -m eth_activity_per_day+
+		
+
+- Run a model plus up to the first layer of parents and children:
+
+		dbt run -m 1+eth_activity_per_day+1
+		
+		
+- Run the a model, its children plus all the children parents:
+		
+		dbt run -m "@stg_transactions"
+
+
+- Run everything undel marts folder OR having the tag stablecoin:
+
+
+		dbt run -m marts.* tag:stablecoin
+		
+
+
+- Run a selection excluding a model or a set of models:
+
+
+		dbt run --exclude my_model_to_exclude

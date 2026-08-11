@@ -1,0 +1,57 @@
+*** Using commands run tests docs seed - DBT Seed ***
+
+
+- Link where we source our stablecoin data:
+
+	https://docs.goldsky.com/mirror/guides/token-transfers/stablecoin-addresses
+
+
+- Place the attached csv stablecoin.csv into the seeds folder
+
+
+- Run the command:
+
+		dbt seed
+
+
+
+- Modify the conversion macro within conversion_utils.sql file like so:
+
+
+{% macro conversion(column_name, factor) %}
+
+
+sum( {{column_name }}/power(10, {{ factor}} ) )
+{% endmacro %}
+
+
+
+- Modify stablecoin_activity_per_day.sql like so:
+
+
+
+select
+t.date,
+t.token_address,
+s.type,
+s.symbol,
+{{ conversion('t.value', 's.decimals')}} as total_usd_value
+
+from {{ ref('stg_token_transfers')}} t 
+
+left join {{ ref('Stablecoins')}} s
+on t.token_address = s.contract_address
+
+where s.contract_address is not null
+
+group by 
+t.date,
+t.token_address,
+s.type,
+s.symbol
+
+
+
+- Then run stablecoin_activity_per_day:
+
+	dbt run -s stablecoin_activity_per_day

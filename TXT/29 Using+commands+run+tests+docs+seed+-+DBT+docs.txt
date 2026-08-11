@@ -1,0 +1,33 @@
+*** Using commands run tests docs seed - DBT docs ***
+
+
+- Modify the schema.yml file so:
+
+
+version: 2
+
+
+models:
+  - name: stg_transactions
+    description: Transactions in the Ethereum Blockchain
+    columns:
+      - name: hash
+        description: >
+          This is a very long multiline description about the unique
+          identifier of each transaction in the Ethereum blockchain
+        data_tests:
+          - unique
+          - not_null
+
+
+
+
+- Then from the terminal run:
+
+	
+		dbt docs generate
+
+
+- Then run:
+
+		dbt docs serve

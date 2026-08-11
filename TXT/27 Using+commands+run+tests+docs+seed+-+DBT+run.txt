@@ -1,0 +1,39 @@
+*** Using commands run tests docs seed - DBT run ***
+
+
+- On variations to run a model or (subset of models):
+
+
+	dbt run --select my_model
+	
+	dbt run -s my_model
+	
+	dbt run -m my_model
+	
+
+
+- To do a 'dry run':
+
+
+	dbt run --empty
+	
+
+
+- To do a run with fail fast:
+
+
+	dbt run --fail-fast
+	
+
+
+- This flag can also be set globally for all runs by editing dbt_project.yml file like so:
+
+
+flags:
+	fail_fast: true
+	
+
+
+- Documentation to the flags available in dbt: 
+
+	https://docs.getdbt.com/reference/global-configs/about-global-configs
