@@ -8,6 +8,7 @@ sources:
     description: "This is the source for the Ethereum data warehouse."
     tables:
       - name: transactions
+        # identifier: transaction_hash # 這裡的 identifier 會是來源資料庫中的table名稱
         description: "This table contains information about Ethereum transactions."
       - name: token_transfers
         description: "This table contains information about Ethereum token transfers."

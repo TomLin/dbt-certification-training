@@ -1,0 +1,58 @@
+*** Configuring sources in dbt ***
+
+
+- On configuring sources, we can put an identifier to a source by editing in sources.yml:
+
+
+version: 2
+
+sources:
+  - name: eth
+    database: eth
+    schema: eth_schema
+
+    tables:
+      - name: contracts
+		    identifier: cnt
+      - name: token_transfers
+      - name: transactions
+
+
+
+- Back in our terminal:
+
+		dbt compile -s stg_contracts
+
+
+
+
+
+
+
+
+
+- To quote a database and schema from a source:
+
+
+
+version: 2
+
+sources:
+  - name: eth
+	quoting:
+		database: true
+		schema: true
+    database: eth
+    schema: eth_schema
+
+    tables:
+      - name: contracts
+		identifier: cnt
+      - name: token_transfers
+      - name: transactions
+
+
+
+- Back in our terminal:
+
+		dbt compile -s stg_contracts
