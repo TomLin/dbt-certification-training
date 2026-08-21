@@ -1,0 +1,43 @@
+*** Using Git - Lifecycle ***
+
+
+- To protect your master branch in Github:
+
+	Settings -> Rules -> Rulesets -> New ruleset -> New branch ruleset
+
+- Give a name to your ruleset, enable Enforcement status, under Target branches, click Add target -> Include by pattern -> Enter "master"
+
+- Under rules, add to the already ticket rules, the rule : "Require a pull request before merging", scroll down and hit Create
+
+
+- Back in dbt_project.yml file, remove some commented lines and in our terminal go:
+
+		git add .
+		
+		git commit -m "clean comments from dbt project"
+		
+		git push
+		
+	This should fail now that our remote master branch is protected
+	
+	
+
+- Create a new branch from the master branch:
+
+
+		git checkout -b dev
+		
+	and push:
+	
+		git push
+		
+
+
+- To push our changes to the remote synced branch:
+
+		
+		git push --set-upstream origin dev
+		
+
+
+- Back in Github, click on "Compare & pull request" button - > "Create pull request" -> "Merge pull request" -> "Confirm merge"
