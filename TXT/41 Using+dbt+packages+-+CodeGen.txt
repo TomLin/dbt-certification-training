@@ -1,0 +1,50 @@
+*** Using dbt packages - CodeGen ***
+
+
+- Link for dbt packages hub:
+
+		https://hub.getdbt.com/
+
+
+- Link for the Codegen package:
+
+		https://hub.getdbt.com/dbt-labs/codegen/latest/
+		
+
+- At the root level of your dbt project, create a packages.yml file and paste the content of the previous link:
+
+
+packages:
+  - package: dbt-labs/codegen
+    version: 0.14.0
+
+
+
+- Back in our terminal:
+
+		dbt deps
+
+
+
+- Under the analysis folder, create a test.sql file with this code:
+
+
+		{{ codegen.generate_source(schema_name='eth_schema', database_name='eth', generate_columns = True) }}
+
+
+- Back in the terminal:
+
+		dbt compile -m test
+
+
+
+- Now to generate a model schema , paste the following code in test.sql:
+
+
+		{{ codegen.generate_model_yaml(['stg_transactions', 'stg_transactions_enriched', 'stablecoin_activity_per_day']) }}
+
+
+
+- And give it a try by doing:
+
+		dbt compile -m test

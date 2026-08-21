@@ -9,7 +9,7 @@
 
 {# 更通用轉換的 macro，符合 don't repeat yourself 原則 #}
 {% macro convert(column_name, factor) %}
-    sum({{ column_name }}) / 1e{{ factor }}
+    sum({{ column_name }} / power(10, {{ factor }}))
 {% endmacro %}
 
 
