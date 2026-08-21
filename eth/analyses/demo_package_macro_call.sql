@@ -14,4 +14,8 @@
 from {{ ref('init_transactions_enriched') }} #}
 
 {# 下面的範例，則是說明怎麼用 audit_helper 來幫忙比對資料(row-wise) #}
-
+{# 下面的 compare relations 裡面的 relations 指的是要比較的兩個資料表 #}
+{{ audit_helper.compare_relations(
+    a_relation = source('eth', 'contracts'),
+    b_relation = source('eth', 'contracts_clone')
+) }}

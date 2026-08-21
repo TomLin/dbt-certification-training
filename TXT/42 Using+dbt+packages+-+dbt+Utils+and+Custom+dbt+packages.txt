@@ -1,0 +1,73 @@
+*** Using dbt packages - dbt Utils and Custom dbt packages ***
+
+
+- Link about the dispatch config used in this lecture:
+
+		https://docs.getdbt.com/reference/dbt-jinja-functions/dispatch
+
+
+- Link to the dbt_utils package:
+
+		https://hub.getdbt.com/dbt-labs/dbt_utils/latest/
+
+
+
+
+- Modify packages.yml file and add the content of the previous link:
+
+
+packages:
+  - package: dbt-labs/dbt_utils
+    version: 1.3.3
+
+
+- Back in our terminal run:
+
+		dbt deps
+
+
+
+- In the test.sql under analysis folder paste this code to use the star macro:
+
+select
+		{{ dbt_utils.star(from = ref('stg_transactions_enriched'), except =['new_field'], quote_identifiers = False) }}
+
+from {{ ref('stg_transactions_enriched') }}
+
+
+- Back in the terminal we can run:
+
+		dbt compile -m test
+		
+
+
+
+
+
+
+*** To customize the star macro ***
+
+
+- Under dbt_packages/dbt_utils/macros/sql/star.sql file , ctrl A + ctrl C to copy the whole code
+
+
+- Back in our main project macros folder, create the file star.sql and paste the content of the clipboard
+
+
+- Edit the file under line 29 under {%- for col in cols %}  add:
+
+				{% set col = col | lower %}
+
+
+- To prioritize our custom star macro, modify our dbt_project.yml file by adding:
+
+
+dispatch:
+  - macro_namespace: dbt_utils
+    search_order: ['eth', 'dbt_utils']
+
+
+- Now we can compile our test model to see it use our custom star macro:
+
+
+		dbt compile -m test

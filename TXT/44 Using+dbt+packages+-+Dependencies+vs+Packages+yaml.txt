@@ -1,0 +1,21 @@
+*** Using dbt packages - Dependencies vs Packages yaml ***
+
+
+- Link to the packages documentation:
+
+		https://docs.getdbt.com/docs/build/packages
+		
+		
+
+- Link to the env_var macro to call environment variables:
+
+		https://docs.getdbt.com/reference/dbt-jinja-functions/env_var
+		
+
+- On packages vs dependencies file:
+
+		https://docs.getdbt.com/docs/mesh/govern/project-dependencies#about-packagesyml-and-dependenciesyml
+
+
+
+* Note: I am using private Github repos in this demo so you won't be able to copy them to your machine

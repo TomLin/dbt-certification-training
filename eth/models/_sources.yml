@@ -14,3 +14,6 @@ sources:
         description: "This table contains information about Ethereum token transfers."
       - name: contracts
         description: "This table contains information about Ethereum smart contracts."
+      - name: contracts_clone
+        description:
+          "This table is a clone of contracts table for comparison purposes. (usage demo for audit_helper.compare_relations)"

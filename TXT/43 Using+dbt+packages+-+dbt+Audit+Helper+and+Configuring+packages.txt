@@ -1,0 +1,76 @@
+*** Using dbt packages - dbt Audit Helper and Configuring packages ***
+
+
+- Link to the audit helper package:
+
+		https://hub.getdbt.com/dbt-labs/audit_helper/latest/
+
+
+- Add the content of that link to install the package in our packages.yml file:
+
+
+packages:
+  - package: dbt-labs/audit_helper
+    version: 0.12.2
+
+
+
+- Back in our terminal run:
+
+		dbt deps
+
+
+- Back in Snowflake, run this command to create a clone of our contracts source table:
+
+		CREATE OR REPLACE TABLE ETH.ETH_SCHEMA.CONTRACTS_CLONE
+			CLONE ETH.ETH_SCHEMA.CONTRACTS;
+
+
+
+- Select from that Cloned table:
+
+
+		SELECT * FROM ETH.ETH_SCHEMA.CONTRACTS_CLONE
+		LIMIT 100;
+
+
+- Grab a block number under BLOCK_NUMBER column and insert that number in the following query:
+
+		DELETE FROM ETH.ETH_SCHEMA.CONTRACTS_CLONE
+		WHERE BLOCK_NUMBER > your_number_here
+
+
+
+
+- Define this source in sources.yml file by adding a list item for that table like so:
+
+
+version: 2
+
+sources:
+  - name: eth
+    database: eth
+    schema: eth_schema
+
+    tables:
+      - name: contracts
+      - name: contracts_clone
+      - name: token_transfers
+      - name: transactions
+
+
+
+
+- Replace the content of the file analysis/test.sql with this code:
+
+
+			{{ audit_helper.compare_relations(source('eth', 'contracts'), source('eth', 'contracts_clone')) }}
+
+
+- Then back in our terminal:
+
+		dbt compile -m test
+
+
+
+- Grab the whole compiled code from your terminal, open a new SQL sheet in Snowflake and paste it and run it - Ctrl Enter
