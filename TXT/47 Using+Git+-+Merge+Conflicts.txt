@@ -1,0 +1,64 @@
+*** Using Git - Merge Conflicts ***
+
+
+
+- Make sure you are locally on your master branch:
+
+		git checkout master
+		
+
+- Create a new branch out of it:
+
+		git checkout -b random_work
+		
+
+- Back in dbt_project.yml uncomment the variables about tron ( you should have only the tron variables - no link ):
+
+
+vars:
+  token_name_var: 'tron'
+  token_address_var: '0x50327c6c5a14DCaDE707ABad2E27eB517df87AB5'
+  token_decimals_var: '6'
+  
+ 
+
+- Now in our terminal:
+
+	git add .
+	git commit -m "tron vars in our dbt_project.yml file"
+	git push --set-upstream origin random_work
+	
+
+- Back in Github, click on "Compare & pull request" button - > "Create pull request" -> "Merge pull request" -> "Confirm merge"
+
+
+
+- Back in our terminal, switch to dev branch:
+
+	git checkout dev
+	
+
+- Back in our dbt_project.yml file, make sure to delete all vars (even if commented) about tron, and you only have link variables:
+
+
+vars:
+  token_name_var: 'link'
+  token_address_var: '0x514910771af9ca656af840dff83e8264ecf986ca'
+  token_decimals_var: '18'
+  
+ 
+
+- Back in our terminal, commit and push our changes:
+
+	git add .
+	git commit -m "link variable updated in dbt project yml"
+	git push
+
+
+- Back in Github, Pull requests tab, click on "New pull request", create a pull request from "dev" to "master"
+
+
+- See now the Pull request has merge conflicts and click on "Resolve conflicts"
+
+
+- In the highlighted code, choose "Accept current change", click on "Mark as resolved", "Commit merge", "Confirm merge"
