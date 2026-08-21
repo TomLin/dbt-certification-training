@@ -1,0 +1,36 @@
+*** Defining configurations in dbt_project.yml - Custom Schema ***
+
+
+- Link to the documentation on custom schemas:
+
+		https://docs.getdbt.com/docs/build/custom-schemas
+		
+
+- Link to the documentation on dbt_project.yml file:
+
+		https://docs.getdbt.com/reference/dbt_project.yml
+
+
+- In case you want to find the actual macro for generating custom schemas:
+
+		
+			path venv/Lib/site-packages/dbt/include/global_project/macros/get_custom_name/get_custom_schema.sql
+
+
+
+- Back in dbt_project.yml file, add a seeds key like so:
+
+
+seeds:
+	+database: seeds
+	+schema: static
+	
+
+- Back in the Snowflake app , create a database for seeds:
+
+	CREATE DATABASE SEEDS;
+
+
+- Then run the command:
+
+		dbt seed

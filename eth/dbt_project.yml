@@ -1,13 +1,17 @@
-
 # Name your project! Project names should contain only lowercase characters
 # and underscores. A good package name should reflect your organization's
 # name or the intended use of these models
-name: 'eth'
+name: 'eth'  # dbt 的專案名稱，只能有小寫字母和底線
 version: '1.0.0'
+
+# 備註：要查看 ~/.dbt/profiles.yml 裡面的設定，請使用指令 dbt debug --config-dir
+# 或是在 Macbook finder 裡面，按下 shift + command + period(句點)，就可以顯示 hidden folder
+
 
 # This setting configures which "profile" dbt uses for this project.
 profile: 'eth'
 
+# 下面這裡是指 dbt 會去哪個資料夾下面，找對應的檔案，例如 models/ 下面的檔案，dbt run 就會去跑 models/ 下面的檔案
 # These configurations specify where dbt should look for different types of files.
 # The `model-paths` config, for example, states that models in this project can be
 # found in the "models/" directory. You probably won't need to change these!
@@ -21,6 +25,13 @@ snapshot-paths: ["snapshots"]
 clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
+
+seeds:
+  database: seeds # 在這裡，指定了seeds要存到哪個database (前提是資料庫要先建立好)
+  # seeds 的 table 會建立在 <database>.<targetSchema>_<customSchema>
+  # 這裡的 targetSchema 是在 profiles.yml 裡面設定的，customSchema 是這裡設定的 static
+  +schema: static
+
 
 # 把 flags 設定在這裡，就不需要再指令上寫 dbt run --fail-fast，這樣就可以在有model跑失敗時，直接停止整個dbt run
 # flags:
@@ -42,3 +53,26 @@ models:
     # 如果有多個tags，指令下成 `dbt run --select tag:eth tag:crypto` 這個是union (or)
     # 如果指令寫成 `dbt run --select tag:eth,tag:crypto` 這個是intersection (and) 要同時有兩個tags的model 才會執行
     +tags: ['eth', 'crypto'] # 這裡可以加上tag，方便後續做dbt run --select tag:eth
+
+    # 下面的設定，是只針對 marts 這個資料夾底下的 model 才會套用這個設定
+    marts:
+      +tags:
+        - powerBI
+        - report
+      +schema:
+        # 這裡可以設定 custom schema，這樣創造出來的 table 就會在 <targetSchema>_<customSchema> 裡面
+        # targetSchema 是在 profiles.yml 裡面設定的
+        marts
+
+vars:
+  # 這裡是設定變數，方便在model裡面使用
+  # 例如在 model 裡面可以用 {{ var('my_var') }} 來取得這個變數的值
+  token_address_var: '0x50327c6c5a14dcade707abad2e27eb517df87ab5'
+  token_decimals_var: '6'
+  token_name_var: 'tron'
+
+# 針對呼叫的 dbt_utils macro，dbt 會先去 eth/macros 裡面找 macro，如果找不到，才會去 dbt_utils 裡面找 macro
+# 可以在不修改 dbt_utils 套件原始碼的情況下，用「同名巨集」在自己專案裡覆寫套件的行為
+dispatch:
+  - macro_namespace: dbt_utils
+    search_order: ['eth', 'dbt_utils']

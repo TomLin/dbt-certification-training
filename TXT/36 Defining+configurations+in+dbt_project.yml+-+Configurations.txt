@@ -1,0 +1,41 @@
+*** Defining configurations in dbt_project.yml - Configurations ***
+
+
+- In the dbt_project.yml file under the models key, modify the block like so:
+
+
+
+models:
+  eth:
+    +materialized: table
+    +tags: ['eth', 'crypto']
+    marts:
+      +tags:
+        - powerbi
+        - report
+		
+
+- Then run this command:
+
+		dbt run -s tag:report
+		
+
+
+- Now back in the dbt_project.yml file, add a config for schema like so:
+
+
+models:
+  eth:
+    +materialized: table
+    +tags: ['eth', 'crypto']
+    marts:
+      +tags:
+        - powerbi
+        - report
+      +schema: marts
+
+
+
+- And add the same command again:
+
+		dbt run -s tag:report

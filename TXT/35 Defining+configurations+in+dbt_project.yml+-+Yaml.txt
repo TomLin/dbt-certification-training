@@ -1,0 +1,30 @@
+*** Defining configurations in dbt_project.yml - Yaml ***
+
+
+- In dbt_project.yml file, we can replace the block:
+
+
+flags:
+	fail_fast: true
+	
+with:
+
+flags: { fail_fast: true }
+
+
+This is a different syntax, same results.
+
+
+
+
+
+- In the same way, we can write a list of items in any of these two ways:
+
+clean-targets:
+	- "target"
+	- "dbt_packages"
+
+
+or
+
+clean-targets: ["target", "dbt_packages"]

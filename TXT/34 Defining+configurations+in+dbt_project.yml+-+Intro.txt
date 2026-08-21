@@ -1,0 +1,15 @@
+*** Defining configurations in dbt_project.yml - Intro ***
+
+
+
+- Move the dbt_project.yml file into the venv folder and try from the terminal dbt run (It won't work)
+
+
+- Now from the terminal do the same command with the flag --project-dir specifying the folder where dbt_project.yml file is:
+
+		dbt run --empty --project-dir ../venv
+
+The command will work but won't find no model to run
+
+
+- Move the dbt_project.yml file back to the root folder eth

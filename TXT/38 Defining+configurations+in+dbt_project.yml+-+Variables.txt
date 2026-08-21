@@ -1,0 +1,72 @@
+*** Defining configurations in dbt_project.yml - Variables ***
+
+
+- Do a copy of the file stablecoin_activity_per_day.sql and rename it to token_activity_per_day.sql
+
+
+
+- Back in coinmarketcap.com , find the Tron link and contract address:
+
+		https://coinmarketcap.com/currencies/tron/
+
+		https://etherscan.io/token/0x50327c6c5a14dcade707abad2e27eb517df87ab5
+
+		0x50327c6c5a14dcade707abad2e27eb517df87ab5
+
+
+
+- Now replace the current code within token_activity_per_day.sql by:
+
+
+
+{{ config(tags=['token']) }}
+
+select
+t.date,
+t.token_address,
+{{ conversion('t.value', '6') }} as total_value
+
+from {{ ref('stg_token_transfers')}} t
+
+where lower(t.token_address) = '0x50327c6c5a14dcade707abad2e27eb517df87ab5'
+
+group by
+t.date,
+t.token_address
+
+
+
+- Now to variabilize our token let's add this key into our dbt_project.yml file:
+
+
+
+vars:
+  token_address_var: '0x50327c6c5a14dcade707abad2e27eb517df87ab5'
+  token_decimals_var: '6'
+
+
+
+
+
+- Now we can modify our token_activity_per_day.sql like so:
+
+
+select
+t.date,
+t.token_address,
+{{ conversion('t.value', var('token_decimals_var')) }} as total_value
+
+from {{ ref('stg_token_transfers')}} t
+
+where lower(t.token_address) = '{{ var("token_address_var")}}'
+
+group by
+t.date,
+t.token_address
+
+
+
+
+- And back in our terminal:
+
+		dbt run -s token_activity_per_day

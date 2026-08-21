@@ -1,0 +1,64 @@
+*** Defining configurations in dbt_project.yml - Alias config ***
+
+
+
+- Let's add an alias to token_activity_per_day:
+
+
+{{ config(tags=['token'], alias='token' )}}
+
+select
+t.date,
+t.token_address,
+{{ conversion('t.value', var('token_decimals_var')) }} as total_value
+
+from {{ ref('stg_token_transfers')}} t 
+
+where lower(t.token_address) = '{{ var("token_address_var")}}'
+
+group by 
+t.date,
+t.token_address
+
+
+
+- Now we can add a new variable in our dbt_project.yml file:
+
+
+vars:
+  token_name_var: 'tron'
+  token_address_var: '0x50327c6c5a14dcade707abad2e27eb517df87ab5'
+  token_decimals_var: '6'
+
+
+
+
+- Now we can modify our token_activity_per_day to include this variable as an alias:
+
+
+{{ config(tags=['token'], alias=var('token_name_var')~'_activity_per_day' )}}
+
+select
+t.date,
+t.token_address,
+{{ conversion('t.value', var('token_decimals_var')) }} as total_value
+
+from {{ ref('stg_token_transfers')}} t 
+
+where lower(t.token_address) = '{{ var("token_address_var")}}'
+
+group by 
+t.date,
+t.token_address
+
+
+
+
+
+- Now token_activity_per_day is fully variable towards erc-20 token. We can try it with the Link token:
+
+
+vars:
+  token_name_var: 'link'
+  token_address_var: '0x514910771af9ca656af840dff83e8264ecf986ca'
+  token_decimals_var: '18'
