@@ -1,0 +1,6 @@
+*** Using Git - Docs and Recap ***
+
+
+- Link on version control documentation:
+
+		https://docs.getdbt.com/docs/cloud/git/version-control-basics

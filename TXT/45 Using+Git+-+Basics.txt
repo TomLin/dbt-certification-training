@@ -1,0 +1,55 @@
+*** Using Git - Basics ***
+
+
+
+- At the root of our eth project, initialize it as a Git repository:
+
+		git init
+		
+
+- Run this command to see what has been modified locally:
+
+		git status
+		
+
+- Put your files in the stage:
+
+		git add .
+		
+
+- Commit your changes:
+
+		git commit -m "first commit"
+		
+
+- To check the history of commits:
+
+		git log
+		
+
+- To register your author information (for your commits):
+
+		git config --global user.name "Your Name"
+		
+		git config --global user.email "your@email.com"
+		
+
+
+- Log into your Github account ( or Create one if you don't have one) and create a new public repository
+
+
+- Copy the link of your HTTPS Github repo and back in our terminal ( replace with the content of your clipboard):
+
+		git remote add origin https://github.com/your_github_account/your_github_repo.git
+		
+
+- Run:
+
+		git push
+		
+
+- Now grab the suggested command in your terminal and run:
+
+		git push --set-upstream origin master
+		
+
