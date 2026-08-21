@@ -1,0 +1,35 @@
+*** Python Models ***
+
+
+- Link on the python models documentation:
+
+		https://docs.getdbt.com/docs/build/python-models
+		
+		
+- If you want to check for a specific Python package availability in Snowflake:
+
+
+		USE DATABASE ETH;
+		
+		SELECT *
+		FROM INFORMATION_SCHEMA.PACKAGES
+		WHERE PACKAGE_NAME = 'pandas'
+		AND LANGUAGE = 'python';
+		
+
+
+- Back in Vs Code, under marts folder, create a new file: python_model.py
+
+
+
+def model(dbt, session):
+
+    my_sql_model_df = dbt.ref("stablecoin_activity_per_day")
+
+    return my_sql_model_df
+
+
+
+- And from the terminal run:
+
+		dbt run -m python_model
