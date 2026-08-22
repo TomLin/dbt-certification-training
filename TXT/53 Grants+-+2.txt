@@ -1,0 +1,61 @@
+*** Grants - 2 ***
+
+- Link on the Grants config documentation:
+
+		https://docs.getdbt.com/reference/resource-configs/grants
+		
+
+- Link on hooks documentation:
+
+		https://docs.getdbt.com/docs/build/hooks-operations
+
+
+- Back in Snowflake:
+
+		USE ROLE ACCOUNTADMIN;
+		
+		CREATE ROLE BA;
+		
+		GRANT ROLE BA TO USER your_user_name;
+		
+		
+
+- Back in dbt_project.yml file modify the models key like so ( ! don't forget to replace by your own schema ! ):
+
+
+models:
+  eth:
+    +materialized: table
+    +tags: ['eth', 'crypto']
+    marts:
+      +tags:
+        - powerbi
+        - report
+      +schema: marts
+
+      analytics:
+        stablecoin_activity_per_day:
+          +post-hook:
+            - GRANT USAGE ON DATABASE DBT TO ROLE TESTER;
+            - GRANT USAGE ON SCHEMA DBT.YOUR_SCHEMA TO ROLE TESTER;
+            - GRANT USAGE ON DATABASE DBT TO ROLE BA;
+            - GRANT USAGE ON SCHEMA DBT.YOUR_SCHEMA TO ROLE BA;
+          +grants:
+            select: ['BA']
+			
+
+- Back in our terminal:
+
+		dbt run -m stablecoin_activity_per_day
+		
+
+
+- Now turn your grants config into ad additive config. Replace the config block on top of stablecoin_activity_per_day by (with the + sign):
+
+{{ config(tags=['stablecoin'], grants = {'+select': ['TESTER']})}}
+
+
+
+- Back in our terminal:
+
+		dbt run -m stablecoin_activity_per_day

@@ -27,7 +27,7 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "dbt_packages"
 
 seeds:
-  database: seeds # 在這裡，指定了seeds要存到哪個database (前提是資料庫要先建立好)
+  +database: seeds # 在這裡，指定了seeds要存到哪個database (前提是資料庫要先建立好)
   # seeds 的 table 會建立在 <database>.<targetSchema>_<customSchema>
   # 這裡的 targetSchema 是在 profiles.yml 裡面設定的，customSchema 是這裡設定的 static
   +schema: static

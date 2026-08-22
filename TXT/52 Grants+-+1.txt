@@ -1,0 +1,46 @@
+*** Grants - 1 ***
+
+
+- Link on the Grants config documentation:
+
+		https://docs.getdbt.com/reference/resource-configs/grants
+		
+
+- Link on hooks documentation:
+
+		https://docs.getdbt.com/docs/build/hooks-operations
+		
+
+- Modify the file stablecoin_activity_per_day.sql by adding on top of the model:
+
+
+{{ config(tags=['stablecoin'], grants = {'select': ['TESTER']})}}
+
+
+
+- Add post hooks on stablecoin_activity_per_day via the dbt_project.yml file ( ! Don't forget to put your own schema ! ):
+
+models:
+  eth:
+    +materialized: table
+    +tags: ['eth', 'crypto']
+    marts:
+      +tags:
+        - powerbi
+        - report
+      +schema: marts
+
+      analytics:
+        stablecoin_activity_per_day:
+          +post-hook:
+            - GRANT USAGE ON DATABASE DBT TO ROLE TESTER;
+            - GRANT USAGE ON SCHEMA DBT.YOUR_SCHEMA TO ROLE TESTER;
+
+
+
+- Back in our terminal run:
+
+		dbt run -m stablecoin_activity_per_day
+		
+		
+- Back in Snowflake as the role TESTER, we should be able to see the table stablecoin_activity_per_day

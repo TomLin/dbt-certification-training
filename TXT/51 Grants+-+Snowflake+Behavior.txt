@@ -1,0 +1,56 @@
+*** Grants - Snowflake Behavior ***
+
+
+- Back in Snowflake:
+
+		CREATE ROLE TESTER;
+		
+		GRANT ROLE TESTER TO USER your_user_name;
+		
+		USE SECONDARY ROLES NONE;
+		
+		USE ROLE TESTER;
+		
+
+- Refresh the Database Explorer: nothing shows.
+
+
+- Then:
+
+		USE ROLE ACCOUNTADMIN;
+		
+		GRANT SELECT ON TABLE DBT.YOUR_DBT_SCHEMA.STABLECOIN_ACTIVITY_PER_DAY TO ROLE TESTER;
+		
+		USE ROLE TESTER;
+		
+
+- Refresh the Database Explorer: still nothing shows.
+
+
+- Then:
+
+		USE ROLE ACCOUNTADMIN;
+		
+		GRANT USAGE ON DATABASE DBT TO ROLE TESTER;
+		
+		GRANT USAGE ON SCHEMA DBT.YOUR_DBT_SCHEMA TO ROLE TESTER;
+		
+		GRANT USAGE ON WAREHOUSE COMPUTE_WH TO TOLE TESTER;
+		
+		USE ROLE TESTER;
+				
+
+
+- Refresh the Database Explorer: now you see your table, schema and database
+
+
+- Now reset the privileges of role TESTER:
+
+
+		USE ROLE ACCOUNTADMIN;
+		
+		DROP ROLE TESTER;
+		
+		CREATE ROLE TESTER;
+		
+		GRANT ROLE TESTER TO USER your_user_name;
