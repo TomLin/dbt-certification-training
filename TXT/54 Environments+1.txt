@@ -1,0 +1,64 @@
+*** Environments 1 ***
+
+
+- Back in Vs Code, take an empty space in the left pane and right click -> Add Folder to Workspace -> Add your .dbt folder 
+  having the profiles.yml file
+  
+
+- Open the profiles.yml file and create a new block for the prod environment like so (Please put your own connection information):
+
+
+
+eth:
+  outputs:
+    dev:
+      account: KSKTFGU-JW82895
+      database: DBT
+      private_key_path: C:/Users/Daniel Weigel/rsa_key.p8
+      role: ACCOUNTADMIN
+      schema: DBT_DWEIGEL
+      threads: 1
+      type: snowflake
+      user: daniel
+      warehouse: compute_wh
+    prod:
+      account: KSKTFGU-JW82895
+      database: PROD
+      private_key_path: C:/Users/Daniel Weigel/rsa_key.p8
+      role: ACCOUNTADMIN
+      schema: PROD_SCHEMA
+      threads: 1
+      type: snowflake
+      user: daniel
+      warehouse: compute_wh
+  target: dev
+
+
+
+
+- Back in our terminal, try:
+
+		dbt compile -m stg_transactions_enriched
+
+
+
+- Now try:
+
+		dbt compile -m stg_transactions_enriched --target prod
+
+
+
+
+- Back in Snowflake, create the database PROD:
+
+
+		CREATE DATABASE PROD;
+		
+
+
+- Now materialize all our models and seeds in the prod environment:
+
+
+		dbt seed --target prod
+		
+		dbt run --target prod

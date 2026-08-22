@@ -1,0 +1,27 @@
+*** Environments 2 ***
+
+
+- Link on the documentaion about target variables:
+
+		https://docs.getdbt.com/reference/dbt-jinja-functions/target
+
+
+- Under analysis folder, create a test.file:
+
+
+{{ target.name }}
+
+{{ target.database }}
+
+{{ target.schema }}
+
+
+- Back in our terminal, try:
+
+		dbt compile -m test
+		
+
+
+- Then try:
+
+		dbt compile -m test --target prod
